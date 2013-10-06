@@ -19,5 +19,8 @@ public class TypesafeConfigJavaExamples {
         out.println(config.getString("my.organization.project.name"));
         out.println(config.getString("my.organization.project.description"));
         out.println(config.getInt("my.organization.team.avgAge"));
+        out.println(config.getStringList("my.organization.team.members"));
     }
+
+
 }
