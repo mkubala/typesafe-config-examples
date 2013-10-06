@@ -40,15 +40,48 @@
             <plugin>
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
+                <version>2.14.1</version>
                 <configuration>
                     <sourceDir>src/main/scala</sourceDir>
                     <launchers>
                         <launcher>
                             <id>myLauncher</id>
-                            <mainClass>pl.mkubala.TypesafeConfigScalaExamples$</mainClass>
+                            <mainClass>pl.mkubala.TypesafeConfigScalaExamples</mainClass>
                         </launcher>
                     </launchers>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>pl.mkubala.TypesafeConfigJavaExamples</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals><goal>add-source</goal></goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
 
