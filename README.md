@@ -8,6 +8,10 @@ Currently examples include the following use-cases:
   * creating new HOCON objects,
   * rendering HOCON
 
+#### Feedback
+Don't hesitate yourself to share your suggestions & reflections.
+You can post comment at http://marcinkubala.wordpress.com/2013/10/09/typesace-config-hocon/
+
 ### How to run examples
 You can run this examples using Maven or SBT:
 
