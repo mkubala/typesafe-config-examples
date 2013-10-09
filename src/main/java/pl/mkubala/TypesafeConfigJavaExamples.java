@@ -2,10 +2,7 @@ package pl.mkubala;
 
 import com.typesafe.config.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.System.out;
 
@@ -22,6 +19,7 @@ public class TypesafeConfigJavaExamples {
 
         examples.simpleReading();
         examples.extractNestedConfig();
+        examples.nestedConfigUseCase();
         examples.fallbackExample();
         examples.listingPathsAndKeys();
         examples.valuesOverriding();
@@ -51,6 +49,17 @@ public class TypesafeConfigJavaExamples {
 
         display("extractedConfig.getStringList(\"members\")",
                 extractedConfig.getStringList("members"));
+    }
+
+    private void nestedConfigUseCase() {
+        Config mainConfig = ConfigFactory.load("nestedConfExample");
+        Collection<UserObject> users = new ArrayList<>();
+        for (Config particularConfig : mainConfig.getConfigList("some.namespace.users")) {
+            UserObject particularUser = new UserObject(particularConfig);
+            users.add(particularUser);
+        }
+        display("users",
+                users);
     }
 
     private void fallbackExample() {
@@ -128,7 +137,8 @@ public class TypesafeConfigJavaExamples {
         ConfigRenderOptions renderOpts = ConfigRenderOptions.defaults().setOriginComments(false).setComments(false);
         //ConfigRenderOptions renderOpts = ConfigRenderOptions.concise();
 
-        display("config.root().render(renderOpts)", config.root().render(renderOpts));
+        display("config.root().render(renderOpts)",
+                config.root().render(renderOpts));
     }
 
 }

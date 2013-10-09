@@ -13,6 +13,8 @@ object TypesafeConfigScalaExamples {
   def main(args: Array[String]) {
     basicReading()
     extractNestedConfig()
+    nestedConfigUseCase()
+    fallbackExample()
     listingPathsAndKeys()
     valuesOverriding()
     creatingAndRendering()
@@ -49,6 +51,27 @@ object TypesafeConfigScalaExamples {
     }
   }
 
+  private def nestedConfigUseCase() {
+    import scala.collection.JavaConversions._
+    val mainConfig = ConfigFactory.load("nestedConfExample")
+    val users = mainConfig.getConfigList("some.namespace.users") map (new UserObject(_))
+    display("users") {
+      users
+    }
+  }
+
+  private def fallbackExample() {
+    val customs: Config = ConfigFactory.load("custom").withFallback(config)
+
+    display("customs.getString(\"my.organization.project.name\")") {
+      customs.getString("my.organization.project.name")
+    }
+
+    display("customs.getString(\"my.organization.team.avgAge\")") {
+      customs.getString("my.organization.team.avgAge")
+    }
+  }
+
   private def listingPathsAndKeys() {
     import scala.collection.JavaConversions._
 
@@ -60,6 +83,11 @@ object TypesafeConfigScalaExamples {
     // List root's direct children keys
     display("config.root().keySet()") {
       config.root().keySet()
+    }
+
+    // List my.organization sub-paths and siblings
+    display("config.atPath(\"my.organization\").entrySet() map (_.getKey)") {
+      config.atPath("my.organization").entrySet() map (_.getKey)
     }
 
     // List only my.organization sub-paths
@@ -115,7 +143,7 @@ object TypesafeConfigScalaExamples {
 
   private def renderConfig(config: Config) {
     // See ConfigRenderOptions' JavaDoc for details.
-    val renderOpts = ConfigRenderOptions.defaults().setOriginComments(false).setComments(false);
+    val renderOpts = ConfigRenderOptions.defaults().setOriginComments(false).setComments(false).setJson(false);
     //val renderOpts = ConfigRenderOptions.concise();
 
     display("config.root().render(renderOpts)") {
